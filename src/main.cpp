@@ -37,14 +37,18 @@ int main(void)
     hysteresis(buffer, width, height);
     result = stbi_write_png("res/textures/Canny_Lenna.png", width, height, req_comps, buffer, width * req_comps);
     std::cout << result << std::endl;
+    stbi_image_free(buffer);
 
     // Step 3: Apply halftoning
+    buffer = stbi_load(filepath.c_str(), &width, &height, &comps, req_comps);
     new_buffer = halftone(buffer, width, height);
     result = stbi_write_png("res/textures/Halftone_Lenna.png", width * 2, height * 2, req_comps, new_buffer, width * req_comps * 2);
     std::cout << result << std::endl;
     free(new_buffer);
+    stbi_image_free(buffer);
 
     // Step 4: Apply Floyd-Steinberg dithering
+    buffer = stbi_load(filepath.c_str(), &width, &height, &comps, req_comps);
     floyedSteinberg(buffer, width, height);
     result = stbi_write_png("res/textures/FloyedSteinberg_Lenna.png", width, height, req_comps, buffer, width * req_comps);
     std::cout << result << std::endl;
